@@ -1,0 +1,5 @@
+{
+  "Auth_Callback": "http://localhost:3001/callback",
+  "Auth_Domain": "reactredux2020.auth0.com",
+  "Auth_ClientId": "C06GQR9lFoKu4q5zA4mXXzhfpS3WKjHY"
+}
