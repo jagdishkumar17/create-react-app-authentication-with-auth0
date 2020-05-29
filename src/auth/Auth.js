@@ -4,9 +4,6 @@ import config from "./auth_config.json";
 
 export default class Auth {
   auth0 = new WebAuth({
-    // domain: process.env.Auth_Domain,
-    // clientID: process.env.Auth_ClientId,
-    // redirectUri: process.env.Auth_Callback,
     domain: config.Auth_Domain,
     clientID: config.Auth_ClientId,
     redirectUri: config.Auth_Callback,
@@ -22,12 +19,12 @@ export default class Auth {
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.getAccessToken = this.getAccessToken.bind(this);
-   // this.scheduleRenewal(); // call if want renewal automatically
+    this.scheduleRenewal(); // call if want renewal automatically
   }
 
   login() {
     this.auth0.authorize();
-    // this.scheduleRenewal();
+     this.scheduleRenewal(); // call if want renewal automatically
   }
 
   logout() {
