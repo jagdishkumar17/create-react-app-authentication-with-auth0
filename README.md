@@ -1,10 +1,10 @@
-# Sample 01 - Logging In and Gated Content
+# Authentication using auth0 in react js
 
 This sample demonstrates:
 
 - Logging in to Auth0 using Redirect Mode
 - Accessing profile information that has been provided in the ID token
-- Gated content. The `/profile` route is not accessible without having first logged in
+- The `/dashboard` route is not accessible without having first logged in
 
 ## Project setup
 
@@ -16,6 +16,16 @@ npm install
 
 # Using yarn..
 yarn install
+```
+
+## npm packages required
+
+```bash
+# auth0..
+npm install auth0-js --save
+
+# react-spinners..
+npm install --save react-spinners
 ```
 
 ### Configuration
