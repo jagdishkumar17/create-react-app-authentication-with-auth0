@@ -82,7 +82,7 @@ Now we need to add our Callback URLs in. The Callback URL is a trusted URL for y
 npx create-react-app my-app
 ```
 
-### Step 5: Copy `utils` folder and its file from this sample to your project inside `src` folder
+### Step 5: Copy `utils` folder and its files from this sample to your project inside `src` folder
 
 This `utils`  folder contains: 
 
@@ -264,14 +264,14 @@ Returns the authenticated users name.
 #### getUser
 Returns the authenticated users detail like picture, nickname, email, name .
 
-## Callback Component
+### Callback Component
 The callback component will handle the applications authentication when a user attempts to log in.
 This component is displayed in the browser while the client is waiting to be authenticated.
 
 ### Protect Components
 
 Next we’re going to display components based on whether the user is authenticated or not. This will be a basic use showing how to protect a component. You can extend this example however you see fit using the same logic. 
-THis sample contain SecureRoute.js file inside Auth folder which contain logic to check user is authenticated or not. use this file when creating the routes to protect the routes.
+This sample contain SecureRoute.js file inside auth folder which contain logic to check user is authenticated or not. use this file when creating the routes to protect the routes.
 e.g. in this sample we  protect `/dasboard` route as :
 ```
  <Router history={history}>
@@ -295,4 +295,202 @@ e.g. in this sample we  protect `/dasboard` route as :
 ```
 ```
  <SecureRoute exact path="/dashboard" component={Dashboard} />
+```
+
+### Step 6: Creating components Login, Logout, Dashboard(profile)
+
+```
+Login.js - check isAuthenticated, if Authenticated redirect to Dashboard else redirect to auth login
+Logout.js - contains functionality for logout from app
+Dashboard.js - contains user profile information after Authentication
+```
+#### Login.js
+```
+import React, { Component } from "react";
+import { RingLoader } from "react-spinners";
+import Auth from "../auth/Auth";
+const auth = new Auth();
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = `
+position: absolute;
+height: 100px;
+width: 100px;
+top: 60%;
+left: 50%;
+margin-left: -50px;
+margin-top: -50px;
+background-size: 100%;
+`;
+class LoginButton extends Component {
+  constructor(props) {
+    super(props);
+    this.login = this.login.bind(this);
+  }
+
+  componentDidMount() {
+    debugger;
+    var isAuthenticated = auth.isAuthenticated();
+    if(isAuthenticated)
+    {
+      this.props.history.push("/dashboard");
+    }
+    else{
+      this.login();
+    }
+
+   // this.setState({ authenticated: isAuthenticated });
+  }
+
+  login() {
+    auth.login();
+  }
+
+  render() {
+    return (
+      <div >
+        <header>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-sm-12 ">
+                <RingLoader css={override} size={70} color={"#FF9933"} loading={true} />
+
+                {/* <h4 className="tm-title">This is the auth page, you should be redirected to auth0 immediately.</h4> */}
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+    );
+  }
+}
+
+export default LoginButton;
+
+```
+
+#### Logout.js
+```
+import React, { Component } from "react";
+import Auth from "../auth/Auth";
+const auth = new Auth();
+class LogoutButton extends Component {
+  constructor(props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    auth.logout();
+  }
+
+  render() {
+    return (
+      <button className="btn btn-primary"
+        onClick={() => {
+          this.logout();
+        }}
+      >
+        Log out
+      </button>
+    );
+  }
+}
+
+export default LogoutButton;
+
+```
+
+#### Dashboard.js
+```
+import React, { Component } from "react";
+import Logout from "./Logout";
+import Auth from "../auth/Auth";
+import { RingLoader } from "react-spinners";
+const auth = new Auth();
+const override = `
+position: absolute;
+height: 100px;
+width: 100px;
+top: 60%;
+left: 50%;
+margin-left: -50px;
+margin-top: -50px;
+background-size: 100%;
+`;
+
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      accessToken:""
+    }
+  }
+  componentDidMount() {
+    var  userDetail  = auth.getUser();
+    var token  = auth.getAccessToken();
+
+    this.setState({
+      user:userDetail,
+      accessToken: token
+    });
+  }
+  render() {
+    debugger;
+    if (!this.state.user) {
+      return  <RingLoader css={override} size={70} color={"#FF9933"} loading={true} />;
+    }
+    return (
+      <div>
+        <header>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12 col-sm-12">
+                <img
+                  src={this.state.user.picture || ""}
+                  className="img-responsive img-circle tm-border"
+                  alt="templatemo easy profile"
+                />
+                <hr />
+                <h1 className="tm-title bold shadow">Hi, I am {this.state.user.nickname || ""}</h1>
+                <h1 className="white bold shadow">{this.state.user.email || ""}</h1>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section className="container">
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="contact">
+                <h2>Profile</h2>
+                <p>
+                email: {this.state.user.email || ""}
+                </p>
+            
+                <p>
+                name: {this.state.user.name || ""}
+                </p>
+                <p>
+                nickname: {this.state.user.nickname || ""}
+                </p>
+                <p>updated_at: {this.state.user.updated_at || ""}</p>
+                <p>AccessToken : {this.state.accessToken || ""}</p>
+                <p>   <Logout /></p>
+              </div>
+            </div>
+           
+           
+          </div>
+        </section>
+
+     
+      </div>
+    );
+  }
+}
+
+export default Dashboard;
+
 ```
