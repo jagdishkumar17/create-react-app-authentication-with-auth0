@@ -21,7 +21,6 @@ class LoginButton extends Component {
   }
 
   componentDidMount() {
-    debugger;
     var isAuthenticated = auth.isAuthenticated();
     if(isAuthenticated)
     {
@@ -30,8 +29,6 @@ class LoginButton extends Component {
     else{
       this.login();
     }
-
-   // this.setState({ authenticated: isAuthenticated });
   }
 
   login() {

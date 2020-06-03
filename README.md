@@ -494,3 +494,94 @@ class Dashboard extends Component {
 export default Dashboard;
 
 ```
+
+
+### Step 6: Creating routes and handle authentication on app.js
+On App.js we need to handle authtication(id authticated then setSession) using auth.handleAuthentication() and create the routes for the app .
+```
+const auth = new Auth();
+
+const handleAuthentication = ({ location }) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+};
+
+```
+
+```
+ <Router history={history}>
+        <Switch>
+          <Route
+            path="/callback"
+            render={props => {
+              handleAuthentication(props);
+              return <Callback {...props} />;
+            }}
+          />
+          {/* BASE  ROUTES  */}
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/login" component={Login} />
+          <SecureRoute exact path="/dashboard" component={Dashboard} />
+          }/>
+        </Switch>
+      </Router>
+```
+
+#### App.js
+```
+import React, { Component } from "react";
+import { Router, Switch, Route, Redirect } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Auth from "./auth/Auth";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import history from "./utils/history";
+import Callback from "./auth/Callback";
+import SecureRoute from "./auth/SecureRoute";
+
+const auth = new Auth();
+
+const handleAuthentication = ({ location }) => {
+  if (/access_token|id_token|error/.test(location.hash)) {
+    auth.handleAuthentication();
+  }
+};
+
+class App extends Component {
+  render() {
+    return (
+      <Router history={history}>
+        <Switch>
+          <Route
+            path="/callback"
+            render={props => {
+              handleAuthentication(props);
+              return <Callback {...props} />;
+            }}
+          />
+          {/* BASE  ROUTES  */}
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/login" component={Login} />
+          <SecureRoute exact path="/dashboard" component={Dashboard} />
+          }/>
+        </Switch>
+      </Router>
+    );
+  }
+}
+
+export default App;
+
+```
+
+In the routes we secure dashboard route by using SecureRoute and keep login as public.
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section
