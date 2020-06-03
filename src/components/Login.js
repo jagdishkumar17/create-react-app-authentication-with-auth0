@@ -24,10 +24,10 @@ class LoginButton extends Component {
     var isAuthenticated = auth.isAuthenticated();
     if(isAuthenticated)
     {
-      this.props.history.push("/dashboard");
+     this.props.history.push("/dashboard");
     }
     else{
-      this.login();
+     this.login();
     }
   }
 
@@ -44,7 +44,7 @@ class LoginButton extends Component {
               <div className="col-md-12 col-sm-12 ">
                 <RingLoader css={override} size={70} color={"#FF9933"} loading={true} />
 
-                {/* <h4 className="tm-title">This is the auth page, you should be redirected to auth0 immediately.</h4> */}
+                <h4 className="tm-title">This is the auth page, you should be redirected to auth0 immediately.</h4>
               </div>
             </div>
           </div>
