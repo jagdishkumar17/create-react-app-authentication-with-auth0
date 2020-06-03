@@ -3,11 +3,12 @@
 This sample demonstrates:
 
 - Logging in to Auth0 using Redirect Mode
+![Image of Login](https://github.com/jagdishkumar17/create-react-app-authentication-with-auth0/blob/master/src/assests/images/login.PNG)
 - Accessing profile information that has been provided in the ID token
-- The `/dashboard` route is not accessible without having first logged in
-![Image of Login](https://github.com/jagdishkumar17/create-react-app-authentication-with-auth0/assests/images/login.PNG)
 ![Image of Auth login page](https://github.com/jagdishkumar17/create-react-app-authentication-with-auth0/blob/master/src/assests/images/authlogin.PNG)
-![Image of Dashboard](https://github.com/jagdishkumar17/create-react-app-authentication-with-auth0/assests/images/dashboard.PNG)
+- The `/dashboard` route is not accessible without having first logged in
+
+![Image of Dashboard](https://github.com/jagdishkumar17/create-react-app-authentication-with-auth0/blob/master/src/assests/images/dashboard.PNG)
 ## Project setup
 
 Use `yarn` or `npm` to install the project dependencies:
